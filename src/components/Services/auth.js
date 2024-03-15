@@ -5,9 +5,9 @@ let auth = {
     login: async (email,password) => {
         try {
             const response = await axios.post(url+'/user/login', { email, password });
-            const data = response.data.data;
-            if (data) {
-                return data;
+            const token = response.data.data.token;
+            if (token) {
+                return token;
             }
             return false;
 
