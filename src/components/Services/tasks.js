@@ -31,7 +31,7 @@ let task = {
                 }
             }).then((res)=>{
                 let data = res.data;
-                console.log("la data",data);
+                
                 if(data.status == "success"){
                     return data.data;
                 }else{

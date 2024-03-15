@@ -7,6 +7,8 @@ let auth = {
             const response = await axios.post(url+'/user/login', { email, password });
             const token = response.data.data.token;
             if (token) {
+                //Save locally user data 
+                localStorage.setItem('user', JSON.stringify(response.data.data.user));
                 return token;
             }
             return false;

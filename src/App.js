@@ -5,6 +5,7 @@ import store from './components/store/store';
 
 import Login from './components/Login/Login';
 import Home from './components/Home/Home';
+import User from './components/User/User';
 import Logout from './components/General/Logout';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/user" element={<User />} />
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Logout />} />
           </Routes>

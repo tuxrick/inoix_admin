@@ -27,6 +27,7 @@ function NavBar() {
 
   const navItems = [
     { text: 'Home', path: '/' }, 
+    { text: 'User', path: '/user' }, 
     { text: 'Logout', path: '/logout' }
 ];
 

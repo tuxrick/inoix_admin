@@ -36,7 +36,8 @@ const CustomCard = ({cardData, statusList}) => {
   const [selectedStatus, setSelectedStatus] = useState(cardData.status.id);
 
   const token = useSelector(state => state.auth.token);
-  console.log(cardData);
+
+  //console.log(cardData);
 
   const handleOpen =async () => {
     setOpen(true);
