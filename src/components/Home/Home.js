@@ -83,14 +83,24 @@ const tasks_data = [
 const Home = () => {
 
     const [taskList, setTaskList] = useState([]);
+    const [statusList, setStatusList] = useState([]);
 
     const token = useSelector(state => state.auth.token);
-    console.log("el token" , JSON.stringify(token));
 
     useEffect(() => {
         tasks.list(token).then((data) => {
             if (Array.isArray(data)) {
               setTaskList(data);
+            } else {
+              console.error("Wrong data: ", data);
+            }
+        }).catch((error) => {
+            console.error("Error getting data: ", error);
+        });
+
+        tasks.status_list(token).then((data) => {
+            if (Array.isArray(data)) {
+                setStatusList(data);
             } else {
               console.error("Wrong data: ", data);
             }
@@ -105,7 +115,7 @@ const Home = () => {
             <Grid container spacing={3}>
                 {taskList.map((task, index) => (
                     <Grid item xs={12} sm={6} md={3} key={index}>
-                        <CustomCard cardData={task}/>
+                        <CustomCard cardData={task} statusList={statusList}/>
                     </Grid>
                 ))}
             </Grid>

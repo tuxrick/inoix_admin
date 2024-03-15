@@ -22,6 +22,53 @@ let task = {
         } catch (error) {
             console.error('Error: ', error);
         }
-    }
+    },
+    status_list: async (token) => {
+        try {
+            const response = await axios.get(url+'/task/list_status',{
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then((res)=>{
+                let data = res.data;
+                console.log("la data",data);
+                if(data.status == "success"){
+                    return data.data;
+                }else{
+                    return false;
+                }
+            });
+
+            return response;
+
+        } catch (error) {
+            console.error('Error: ', error);
+        }
+    },
+    change_status: async (token, id_task, id_status) => {
+        try {
+            const response = await axios.post(url+'/task/change_status',{
+                id_task,
+                id_status
+            },{
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then((res)=>{
+                let data = res.data;
+                console.log("la data",data);
+                if(data.status == "success"){
+                    return data.data;
+                }else{
+                    return false;
+                }
+            });
+
+            return response;
+
+        } catch (error) {
+            console.error('Error: ', error);
+        }
+    },
 }
 export default task;

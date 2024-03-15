@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Card, CardContent, Typography, makeStyles } from '@material-ui/core';
 import { Modal, Box, Button } from '@mui/material';
+import tasks from '../Services/tasks';
 
 const useStyles = makeStyles({
   card: {
@@ -28,18 +30,38 @@ const style = {
     p: 4,
   };
 
-const CustomCard = ({cardData}) => {
+const CustomCard = ({cardData, statusList}) => {
   const classes = useStyles();
-
   const [open, setOpen] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState(cardData.status.id);
 
-  const handleOpen =async (test) => {
+  const token = useSelector(state => state.auth.token);
+  //console.log(cardData);
+
+  const handleOpen =async () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
   }
+
+  const handleStatusChange = (event) => {
+    setSelectedStatus(event.target.value);
+    let new_status = event.target.value+"";
+    tasks.change_status(token, cardData.id+"", new_status).then((data) => {
+        if(data){
+            alert("Status successfully changed");
+            window.location.reload();
+        }else{
+            alert("Error changing status");
+            window.location.reload();
+        }
+    }).catch((error) => {
+        console.error("Error getting data: ", error);
+    });    
+    console.log("Nuevo estado seleccionado:", event.target.value);
+  };
 
   //console.log(cardData);
   return (
@@ -70,9 +92,21 @@ const CustomCard = ({cardData}) => {
           <Typography id="modal-modal-title" variant="h5" component="h2">
             Task: {cardData.title}
           </Typography>
-          <Typography sx={{ mt: 2 }}>
-            Status: {cardData.status.status} 
-          </Typography>
+          Status: 
+          { cardData.id_status !== 4 &&
+            <>
+                <select value={selectedStatus} onChange={handleStatusChange}>
+                    {statusList.map(status => (
+                    <option key={status.id} value={status.id}>{status.status}</option>
+                    ))}
+                </select>
+            </>
+          }
+          { cardData.id_status == 4 &&
+            <>
+                Status: {cardData.status.status}
+            </>
+          }
           <Typography sx={{ mt: 2 }}>
             Description: {cardData.description}
           </Typography>
