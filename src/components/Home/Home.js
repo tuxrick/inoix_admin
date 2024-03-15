@@ -12,7 +12,7 @@ const Home = () => {
     const [statusList, setStatusList] = useState([]);
 
     const token = useSelector(state => state.auth.token);
-    const user_info = JSON.parse(localStorage.getItem("user"));
+    let user_info ={};
 
     useEffect(() => {
         tasks.list(token).then((data) => {
@@ -34,6 +34,10 @@ const Home = () => {
         }).catch((error) => {
             console.error("Error getting data: ", error);
         });
+
+        if(token){
+            user_info = JSON.parse(localStorage.getItem("user"));
+        }
     }, [token]);
 
     return (
