@@ -95,5 +95,32 @@ let task = {
             console.error('Error: ', error);
         }
     },
+    add_task: async (token, id_user, title, description, due_date) => {
+        try {
+            const response = await axios.post(url+'/task/create_task',{
+                id_user,
+                title, 
+                description,
+                due_date
+            },{
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then((res)=>{
+                let data = res.data;
+                console.log("la data",data);
+                if(data.status == "success"){
+                    return data.data;
+                }else{
+                    return false;
+                }
+            });
+
+            return response;
+
+        } catch (error) {
+            console.error('Error: ', error);
+        }
+    },
 }
 export default task;
