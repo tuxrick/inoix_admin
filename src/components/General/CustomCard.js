@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Card, CardContent, Typography, makeStyles } from '@material-ui/core';
-import { Modal, Box, Button } from '@mui/material';
+import { Modal, Box, TextField, Button } from '@mui/material';
 import tasks from '../Services/tasks';
 
 const useStyles = makeStyles({
@@ -36,7 +36,7 @@ const CustomCard = ({cardData, statusList}) => {
   const [selectedStatus, setSelectedStatus] = useState(cardData.status.id);
 
   const token = useSelector(state => state.auth.token);
-  //console.log(cardData);
+  console.log(cardData);
 
   const handleOpen =async () => {
     setOpen(true);
@@ -59,9 +59,24 @@ const CustomCard = ({cardData, statusList}) => {
         }
     }).catch((error) => {
         console.error("Error getting data: ", error);
-    });    
+    });
     console.log("Nuevo estado seleccionado:", event.target.value);
   };
+
+  const handleAddComment = (comment) => {
+    console.log("New comment:", comment);
+    tasks.add_comment(token, cardData.id+"", comment).then((data) => {
+        if(data){
+            alert("Comment successfully added");
+            window.location.reload();
+        }else{
+            alert("Error saving comment, please try again.");
+            window.location.reload();
+        }
+    }).catch((error) => {
+        console.error("Error getting data: ", error);
+    });
+  }
 
   //console.log(cardData);
   return (
@@ -102,7 +117,7 @@ const CustomCard = ({cardData, statusList}) => {
                 </select>
             </>
           }
-          { cardData.id_status == 4 &&
+          { cardData.id_status === 4 &&
             <>
                 Status: {cardData.status.status}
             </>
@@ -117,11 +132,25 @@ const CustomCard = ({cardData, statusList}) => {
             Due date: {cardData.due_date}
           </Typography>
           <br/>
+          { cardData.id_status === 4 &&
+                <>
+                    <TextField
+                        fullWidth
+                        label={"Comment"}
+                        variant="outlined"
+                        id="comment-input"
+                    />
+                    <br/><br/>
+                    <Button variant="contained" onClick={() => handleAddComment(document.getElementById("comment-input").value)}>Add Comment</Button>
+                </>
+            }
+
           {cardData.comments.length > 0 &&
           <>
             <Typography variant="h6" component="h2" sx={{ mt: 2 }}>
                 Comments:
             </Typography>
+
             {cardData.comments.map((comment) => {
                 return (
                 <Typography sx={{ mt: 2 }}>

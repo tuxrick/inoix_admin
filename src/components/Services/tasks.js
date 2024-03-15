@@ -70,5 +70,30 @@ let task = {
             console.error('Error: ', error);
         }
     },
+    add_comment: async (token, id_task, comment) => {
+        try {
+            const response = await axios.post(url+'/task/add_comment',{
+                id_task,
+                comment
+            },{
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then((res)=>{
+                let data = res.data;
+                console.log("la data",data);
+                if(data.status == "success"){
+                    return data.data;
+                }else{
+                    return false;
+                }
+            });
+
+            return response;
+
+        } catch (error) {
+            console.error('Error: ', error);
+        }
+    },
 }
 export default task;
