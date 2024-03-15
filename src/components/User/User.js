@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import NavBar from '../General/NavBar';
 import { Container, Typography } from '@material-ui/core';
 
@@ -18,8 +18,8 @@ const User = () => {
                         Last Name: {user_info.last_name}
                     </Typography>
                     <Typography sx={{ mt: 2 }}>
-                        Email: {user_info.email}
                     </Typography>
+                        Email: {user_info.email}
                     <Typography sx={{ mt: 2 }}>
                         Role: {user_info.role}
                     </Typography>
